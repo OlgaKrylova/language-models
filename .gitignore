@@ -1,3 +1,6 @@
+/models/gpt_kodeks
+/models/gpt_astro
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
