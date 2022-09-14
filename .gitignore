@@ -1,5 +1,6 @@
 /models/gpt_kodeks
 /models/gpt_astro
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
