@@ -16,12 +16,12 @@ model_base = GPT2LMHeadModel.from_pretrained(
     output_attentions = False,
     output_hidden_states = False)
 
-pretrained_weights_educated = '/language-models/models/gpt_kodeks'
+pretrained_weights_educated = 'models/gpt_kodeks'
 model = GPT2LMHeadModel.from_pretrained(pretrained_weights_educated,     
     output_attentions = False,
     output_hidden_states = False)
 
-pretrained_weights_astro = '/language-models/models/gpt_astro'
+pretrained_weights_astro = 'models/gpt_astro'
 model_astro = GPT2LMHeadModel.from_pretrained(pretrained_weights_astro,     
     output_attentions = False,
     output_hidden_states = False)
@@ -29,7 +29,7 @@ model_astro = GPT2LMHeadModel.from_pretrained(pretrained_weights_astro,
 tokenizer = GPT2Tokenizer.from_pretrained('sberbank-ai/rugpt3small_based_on_gpt2')
 
 def main():
-    st.subheader('Тут генерируется текст в стиле гражданского кодекса РФ')
+    st.subheader('Тут генерируется гороскоп и текст в стиле гражданского кодекса РФ')
     prompt = st.text_area(label='Введите начало текста', value = 'Смерть наступила')
     choice = st.radio('Стиль текста', options=['Обычный', 'ГрК РФ', 'Астро'], index=1, on_change=None, disabled =False)
     num_return_sequences = st.slider('Число предложений', min_value=1, max_value=5, value=1, step=1, format=None, 
@@ -76,7 +76,7 @@ def main():
         elif choice == 'Астро':
             out = model_astro.generate(
                 input_ids=prompt,
-                max_length=60,
+                max_length=200,
                 num_beams=num_beams,
                 do_sample=True,
                 temperature = temperature,
@@ -84,7 +84,7 @@ def main():
                 top_p=0.6,
                 no_repeat_ngram_size=3,
                 num_return_sequences=num_return_sequences).numpy()
-            st.write ('Генерация базовой модели')
+            st.write ('Генерация астропрогноза')
             for out_ in out:
                 st.write(textwrap.fill(tokenizer.decode(out_), 60), end='\n------------------\n')
 

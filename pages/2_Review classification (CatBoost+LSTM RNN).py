@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader, TensorDataset
 import torch.nn as nn
 
 stop_words = set(stopwords.words('english'))
-vocab_list = pd.read_csv('/language-models/vocab_list.csv')
+vocab_list = pd.read_csv('vocab_list.csv')
 vocab_to_int = vocab_list.set_index('Unnamed: 0').to_dict()['value']
 
 def data_preprocessing(text):
@@ -82,7 +82,7 @@ class sentimentLSTM(nn.Module):
 
 def classify_cb(review):
     from_file = CatBoostClassifier()
-    from_file.load_model('/language-models/models/cbc_model')
+    from_file.load_model('models/cbc_model')
     y_pred = from_file.predict([review])
     p_pred = np.round(from_file.predict_proba([review]),2)
     answer_dict = {1: "'positive'", 0: "'negative'"}
@@ -98,7 +98,7 @@ def classify_rnn(review):
     features = padding(review_int, seq_len = 400)
     print(features)
     rnn = sentimentLSTM(vocab_size=222610, output_size = 1, embedding_dim = 64, hidden_dim = 64, n_layers = 1)
-    rnn.load_state_dict(torch.load('/language-models/models/rnn_class_state_dict.pt'))
+    rnn.load_state_dict(torch.load('models/rnn_class_state_dict.pt'))
     hidden = rnn.init_hidden()
      #print(f'Prob of positive: {model(torch.Tensor(features).long(),(hidden,c))[0].item():.3f}')
     rnn.eval()
